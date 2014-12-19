@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -18,7 +19,8 @@ class Config
     public static function get($param, $default = null)
     {   
         if (empty(self::$config)) {
-            self::$config = Yaml::parse(__DIR__ . '/' . self::CONFIG_FILE);
+			$yaml = new Parser();
+            self::$config = $yaml->parse(file_get_contents(__DIR__ . '/' . self::CONFIG_FILE));
         }
         if (isset(self::$config[$param])) {
             return self::$config[$param];
